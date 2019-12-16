@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TarjetasNavideñas</title>
+    <style>
+        html, body, #viewDiv {
+          position: absolute;
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+      </style>
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/css/main.css">
+      <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+      <script src="https://js.arcgis.com/4.11/"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+    <script type="text/javascript"src="js/colombiadia3.js"></script>
+
+
+</head>
+<body>
+    <!-- ID de Nieve -->
+    <div id = "flake">&#10052;</div>
+    <!-- End ID de Nieve-->
+
+    <!-- ID Mapa-->
+    <div id="viewDiv"></div>
+    <!--End ID Mapa-->
+
+    <!-- Modal -->
+
+    <div class='panel' id='js-panel'>
+        <div class='panel__content'>
+          <h3>¡¡Felicitaciones!!</h3>
+          <p>Tu carta la recibio Papa Noel. Alias "El barba blanca, barriguita profunda"</p>
+        </div>
+        <div class='panel__flaps'>
+          <div class='flap outer flap--left'>
+            <img id="papa"src="https://cdn.pixabay.com/photo/2017/03/21/21/28/santa-claus-2163392_960_720.png"></imf>
+      
+          </div>
+          <a id="Aceptar" class='flap flap__btn' href='#'>Aceptar</a>
+          <div class='flap outer flap--right'>
+            <img id="papa"src="https://cdn.pixabay.com/photo/2016/11/18/10/33/reindeer-1833920_960_720.png" alt="">
+          </div>
+        </div>
+      </div>
+  
+    <!-- End Modal-->
+
+
+    <!-- Scrip de Nieve-->
+
+    <script>
+
+
+        var t = setInterval(
+          function(){
+            var documentHeight 		= $(document).height();
+            var startPositionLeft 	= Math.random() * $(document).width() - 100;
+            var startOpacity		= 0.5 + Math.random();
+            var sizeFlake			= 10 + Math.random() * 20;
+            var endPositionTop		= documentHeight - 40;
+            var endPositionLeft		= startPositionLeft - 100 + Math.random() * 200;
+            var durationFall		= documentHeight * 10 + Math.random() * 5000;
+            $('#flake')
+              .clone()
+              .appendTo('body')
+              .css(
+                {
+                  left: startPositionLeft,
+                  opacity: startOpacity,
+                  'font-size': sizeFlake
+                }
+              )
+              .animate(
+                {
+                  top: endPositionTop,
+                  left: endPositionLeft,
+                  opacity: 0.2
+                },
+                durationFall,
+                'linear',
+                function() {
+                  $(this).remove()
+                }
+              );
+          }, 500);
+        
+        
+        
+        
+          var snow = {};
+          var snowflex = {};
+        
+          snowflex.create  = function(){
+            var flex = document.createElement('div');
+              flex.innerHTML		 	= "&#10052;";
+              flex.style.fontSize 	= 10 + Math.random() * 20 + 'px';
+              flex.style.top 			= - 50 + Math.random() * 20 + 'px';
+              flex.style.left 		= Math.random() * 1500 + 'px';
+              flex.style.position 	= "absolute";
+              flex.style.color 		= "#F3F3F3";
+              flex.style.opacity		= Math.random();
+              document.getElementsByTagName('body')[0].appendChild(flex);
+              return flex;
+          };
+        
+        
+          snow.snowflex = function(){
+            var flex = snowflex.create();
+            var x = -1 + Math.random() * 2;
+            var t = setInterval( 
+                  function(){
+                    flex.style.top 	= parseInt(flex.style.top) +  5 + 'px';
+                    flex.style.left = parseInt(flex.style.left) +  x + 'px';
+                    if (parseInt(flex.style.top) > 1500) {
+                      clearInterval(t);
+                      document.getElementsByTagName('body')[0].removeChild(flex);
+                    }			
+                  }, 45 + Math.random() * 20);
+          };
+          
+          snow.storm = function(){
+            var t	= setInterval(
+                  function(){
+                    snow.snowflex();
+                  }, 500);
+          };
+        
+          //snow.storm();
+        
+          var fog = {};
+        
+          fog.draw = function(ctx, x, y){
+            
+              ctx.fillStyle = "rgba( 255, 255, 255, " + Math.random() + " )";
+              ctx.arc( x, y, 10,0,Math.PI*2,true);
+              ctx.closePath();
+              ctx.fill();
+        
+          };
+        
+        
+          fog.start = function(){
+            var ctx = document.getElementById('canvas').getContext("2d");
+            var x = 0;
+            var y = 0;
+            var t = setInterval( 
+                  function(){
+                    
+                    x = 300 + 300*Math.sin(x);
+                    y = 300 + 300* -Math.cos(x);
+                     
+                    x += 2;
+                    fog.draw(ctx, x, y);
+        
+                  }, 100);
+            
+          };
+          
+          //fog.start();
+        
+        </script>
+
+        <!-- End script de Nieve -->
+    
+</body>
+</html>
